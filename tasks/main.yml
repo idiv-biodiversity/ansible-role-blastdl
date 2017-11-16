@@ -1,0 +1,38 @@
+---
+
+- name: create blastdl group
+  group:
+    name: '{{ blastdl_group }}'
+    system: yes
+
+- name: create blastdl user
+  user:
+    name: '{{ blastdl_user }}'
+    group: '{{ blastdl_group }}'
+    comment: ''
+    home: '{{ blastdl_home }}'
+    shell: '/bin/bash'
+    system: yes
+
+- name: clone git repository
+  git:
+    repo: 'https://github.com/idiv-biodiversity/blastdl'
+    dest: '{{ blastdl_repo_dir }}'
+    update: yes
+
+- name: set cron mailto
+  cron:
+    user: blastdl
+    env: yes
+    name: MAILTO
+    value: 'adm-cluster@ufz.de'
+
+- name: cron
+  cron:
+    user: blastdl
+    name: 'download {{ item }} database'
+    job: 'time bash {{ blastdl_repo_dir }}/blastdl.sh {{ item }} {{ blastdl_db_dir }}'
+    special_time: monthly
+  with_items: '{{ blastdl_databases }}'
+
+...

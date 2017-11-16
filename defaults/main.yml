@@ -1,0 +1,19 @@
+---
+
+blastdl_user: 'blastdl'
+
+blastdl_group: 'blastdl'
+
+blastdl_home: '/var/lib/{{ blastdl_user }}'
+
+blastdl_repo_dir: '{{ blastdl_home }}/src/blastdl'
+
+blastdl_db_dir: '/data/db/blast'
+
+blastdl_databases:
+  - nr
+  - nt
+  - refseq_genomic
+  - refseq_protein
+
+...

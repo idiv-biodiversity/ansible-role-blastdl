@@ -13,6 +13,7 @@ Table of Contents
 - [Dependencies](#dependencies)
 - [Example Playbook](#example-playbook)
   * [Top-Level Playbook](#top-level-playbook)
+  * [Role Dependency](#role-dependency)
 - [License](#license)
 - [Author Information](#author-information)
 
@@ -61,7 +62,6 @@ Add to `requirements.yml`:
 ---
 
 - src: idiv-biodiversity.blastdl
-  version: v1.0.0
 
 ...
 ```
@@ -82,10 +82,27 @@ Write a top-level playbook:
 - name: blast database download
   hosts: head
   roles:
-    - role: blastdl
+    - role: idiv-biodiversity.blastdl
       tags:
         - blast
         - blastdl
+
+...
+```
+
+### Role Dependency
+
+Define the role dependency in `meta/main.yml`:
+
+```yml
+---
+
+dependencies:
+
+  - role: idiv-biodiversity.blastdl
+    tags:
+      - blast
+      - blastdl
 
 ...
 ```
